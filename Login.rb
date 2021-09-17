@@ -12,9 +12,10 @@ case  $value
 when   1
         load 'Shopkeeper.rb'
         include Option
+        include List
 when   2
         load 'Customer.rb'
         include Customer
 else
-    puts "Invalid Choice !!!"
+       puts "Invalid Choice !!!"
 end

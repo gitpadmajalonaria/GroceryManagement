@@ -1,8 +1,17 @@
 #!usr/bin/ruby -w
-    
-$temp = " "
-$hash_ = {"Salt" => 40 , "Pepper" => 55, "Taco" => 120, "Honey" => 70, "Jelly" => 87, "Ketchup" => 80, 
-         "Butter" => 140, "Pickles" => 125, "Sugar" => 45, "Soap" => 30, "Cleaner" => 98, "HandWash" => 130 }   
+      
+module List 
+    $temp = " "
+    $hash_ = {"salt"=>40, "pepper"=>55, "taco"=>120, "honey"=>70, "jelly"=>87, "ketchup"=>80, 
+             "butter"=>140, "pickles"=>125, "sugar"=>45, "soap"=>30, "cleaner"=>98, "tea"=>90 }   
+
+    def list()
+        $hash_.each do |k, v| 
+        print k,"\t\t"
+        print v,"\n"
+        end
+    end  
+end
 
 module Option
     def chk
@@ -24,25 +33,29 @@ module Option
         when 2
             puts "Enter name of item :"
             $hash_.each do |x,y|  
-            input = gets.chomp          
-                if input == x
-                print x
-                $temp = $temp + " #{x} "   
-                end 
+            input = gets.chomp  
+                if $hash_.key?(input)
+                    if input.empty? == false
+                        $temp = $temp + input + "\t" 
+                    else   
+                        break
+                    end
+                else
+                    break     
+                end
             end          
-            puts "List is : #{$temp} "
+            puts "List is : #{$temp}"
 
         when 3
             print "Enter name of item you want to delete : "
             key = gets.chomp
             if($hash_.delete(key))
-                puts "Item deleted !!!"
+                puts "\nItem deleted successfully !!!"
+                puts "Updated list : "
+                $hash_ = list()
             else
                 puts "Wrong item name !!!"  
             end      
-            puts "\nItem deleted successfully !!!"
-            puts "Updated list : "
-            $hash_ = list
                 
         else
             puts "Invalid choice.."
@@ -50,16 +63,11 @@ module Option
     end
 end             
 
-class Shopkeeper
+class Shop
+    include List
     include Option
-    def list()
-        $hash_.each do |k, v| 
-        print k    ,"\t\t"
-        print v,"\n"
-        end
-    end
 end
 
- obj = Shopkeeper.new
+ obj = Shop.new
  obj.list
  obj.chk
