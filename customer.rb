@@ -1,4 +1,3 @@
-#!usr/bin/ruby -w
 
 module List 
     $temp = Array.new()
