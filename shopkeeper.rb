@@ -1,91 +1,95 @@
-class Shopkeeper
+
+# require '/home/rails/grocerymanagement/main.rb'
+
+class Shopkeeper  
+  attr_accessor :value, :temp, :items, :item_list
   
-  attr_accessor :value, :temp, :item
-
-  def item_list 
-    item = {salt: 40, pepper: 55, taco: 120, honey: 70, jelly: 87, ketchup: 80, 
-            butter: 140, pickles: 125, sugar: 45, soap: 30, cleaner: 98, tea: 90 }   
-    list(item)
+  def initialize
+    @items = Shopkeeper.lists           
   end
- # obj.item_list
 
-  def option(item)
+ def self.lists
+    { salt: 40, pepper: 55, taco: 120, honey: 70, jelly: 87, ketchup: 80, 
+            butter: 140, pickles: 125, sugar: 45, soap: 30, cleaner: 98, tea: 90 }     
+
+  end  
+
+  def list
+    items.each do |k, v| 
+      print k,"\t\t"
+      print v,"\n"
+    end
+    option
+  end
+    
+  def option   
     puts "\n\n  *** OPTION *** "
-    puts " 1. ADD    2. LIST    3. REMOVE      4. EXIT"
+    puts " 1. UPDATE    2. ADD    3. REMOVE      4. LISTING     5. EXIT"
     value = gets.to_i
     case value
     when 1
-      add(item)               
+      update              
     when 2
-      listing(item)
+       add
     when 3
-      delete(item)
+      delete
     when 4
-      puts "Thanks...\n"                  
+      listing  
+    when 5
+       puts "Thanks...\n"                  
     else
       puts "Invalid choice..."
-      option
     end
   end
 
-  def add(item) 
+
+ def update 
+    print "Enter name of item : "
+    name = gets.chomp.to_sym
+    print "Enter price of item : "
+    price = gets.to_i
+    items.update(name, price)
+    puts "\nItem updated successfully !!!"
+    puts "Updated list : "
+    list
+  end
+
+
+  def add 
     print "Enter name of item : "
     name = gets.chomp
     print "Enter price of item : "
     price = gets.to_i
-    item.store(name, price)
+    items.store(name, price)
     puts "\nItem added successfully !!!"
     puts "Updated list : "
-    list(item)
+    list
   end
 
-  def listing(item)
-    temp = Array.new()
-    val = Array.new()
-    i = j = 0
+  def listing
     puts "Enter name of item :"
-    item.each do |x,y|  
-    input = gets.chomp 
-      if input.empty? == false
-        temp[i] = "#{input}"
-        i = i + 1
-        val[j] = item[input]
-        j = j + 1   
-      else
-        break  
-      end
-    end    
-    puts " Name \t Price \n "
-    name1 = temp.each
-    name2 = val.each
-    loop do 
-      n1,n2 = name1.next,name2.next
-      puts " #{n1} \t #{n2}  "
+    input = gets.chomp.to_sym
+    if items[input]
+      puts " Name \t Price \n "
+      puts " #{input} \t #{items[input]}"  
+    else
+      puts "No record found \n"
     end
-    option(item)
   end  
 
-  def delete(item)
+  def delete
     print "Enter name of item you want to delete : "
-    key = gets.chomp
-    if (item.delete(key))
+    key = gets.chomp.to_sym
+    if (items.delete(key))
       puts "\nItem deleted successfully !!!"
       puts "Updated list : "
-      list(item)
+      list
     else
       puts "Wrong item name !!!"  
     end     
   end  
-  
-  def list(item)
-    item.each do |k, v| 
-      print k,"\t\t"
-      print v,"\n"
-    end  
-    option(item)
-  end 
 
 end             
 
 sk = Shopkeeper.new
-sk.item_list
+sk.list

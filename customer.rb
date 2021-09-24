@@ -1,16 +1,36 @@
-class Customer
 
-  attr_accessor :temp, :price, :num, :sum, :total, :item
+require '/home/rails/grocerymanagement/shopkeeper.rb'
+
+class Customer
+  attr_accessor :temp, :value, :price, :num, :sum, :total, :item
+  
+  def choose
+    puts "Choices :
+          1. BUY
+          2. EXIT "
+    value = gets.to_i
+    case value
+    when 1
+         buy 
+    when 2
+         puts "Thanks...\n"
+    else
+         puts "Invalid choice ...\n"
+    end
+  end                  
 
   def buy
-    item = {salt: 40, pepper: 55, taco: 120, honey: 70, jelly: 87, ketchup: 80, 
-            butter: 140, pickles: 125, sugar: 45, soap: 30, cleaner: 98, tea: 90 }   
 
+    def initialize
+       @items = Shopkeeper.lists           
+    end
+
+    item = Main.lists
     item.each do |k, v| 
     print k,"\t\t"
     print v,"\n"
     end
-
+  
     temp = Array.new()
     price = Array.new()
     num = Array.new()
@@ -18,8 +38,8 @@ class Customer
     i = j = k = l = total = s = 0
   
     puts "Enter name and quantity of items you want to buy: " 
-    item.each do |x,y|  
-    input = gets.chomp
+    item.each do |x,y| 
+    input = gets.chomp.to_sym
     n = gets.to_i     
       if !input.empty? || n != 0  
         temp[i] = "#{input}"
@@ -61,4 +81,4 @@ class Customer
 end
 
 ctmr = Customer.new
-ctmr.buy
+ctmr.choose
